@@ -177,32 +177,39 @@ HASHTAGS = "#恋愛 #恋愛垢さんと繋がりたい #恋愛心理学"
 # --- 使用済みツイート記録ファイル ---
 USED_TWEETS_FILE = "used_tweets.json"
 
-# --- OAuth認証オブジェクト作成 ---
+# --- OAuth1認証オブジェクト作成 ---
 auth = OAuth1(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
+# --- ランダム絵文字リスト ---
+EMOJIS = ["✨", "🌟", "🔥", "🎯", "💡", "🎉", "📣", "🏆", "🥇", "✅", "🥳", "💥", "🛫", "🏖️", "🍀", "🎶", "📢", "💗", "🎈", "🍭"]
+
+# --- 使用済みツイート読み込み ---
 def load_used_tweets():
     if os.path.exists(USED_TWEETS_FILE):
         with open(USED_TWEETS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
 
+# --- 使用済みツイート保存 ---
 def save_used_tweets(used_indices):
     with open(USED_TWEETS_FILE, "w", encoding="utf-8") as f:
         json.dump(used_indices, f)
 
+# --- 投稿処理 ---
 def post_tweet(text):
-    url = "https://api.twitter.com/1.1/statuses/update.json"
-    headers = {"Content-Type": "application/x-www-form-urlencoded"}
-    payload = {"status": text.strip()}
+    url = "https://api.twitter.com/2/tweets"
+    headers = {"Content-Type": "application/json"}
+    payload = {"text": text.strip()}
 
-    response = requests.post(url, headers=headers, data=payload, auth=auth, timeout=30)
+    response = requests.post(url, headers=headers, json=payload, auth=auth, timeout=30)
 
-    if response.status_code == 200:
+    if response.status_code == 201:
         print("✅ 投稿成功:", response.json())
     else:
         print("❌ 投稿失敗:", response.text)
         response.raise_for_status()
 
+# --- メイン ---
 if __name__ == "__main__":
     used_indices = load_used_tweets()
 
@@ -218,8 +225,9 @@ if __name__ == "__main__":
     selected_index = random.choice(available_indices)
     selected_text = TWEET_CANDIDATES[selected_index]
 
-    # ハッシュタグを自動付与
-    final_text = f"{selected_text}\n\n{HASHTAGS}"
+    # ハッシュタグ＆ランダム絵文字付与
+    emoji = random.choice(EMOJIS)
+    final_text = f"{selected_text}\n\n{HASHTAGS} {emoji}"
 
     # 投稿
     post_tweet(final_text)

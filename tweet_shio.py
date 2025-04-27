@@ -8,7 +8,7 @@ from requests_oauthlib import OAuth1
 API_KEY = os.getenv("TWITTER_API_KEY2")
 API_SECRET_KEY = os.getenv("TWITTER_API_SECRET_KEY2")
 ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN2")
-ACCESS_TOKEN_SECRET = os.getenv("TWITTER_API_SECRET_SECRET2")
+ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET2")
 
 # --- 投稿候補（バズポスト40本） ---
 TWEET_CANDIDATES = [

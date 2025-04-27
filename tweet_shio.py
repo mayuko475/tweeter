@@ -191,7 +191,7 @@ def save_used_tweets(used_indices):
         json.dump(used_indices, f)
 
 def post_tweet(text):
-    url = "https://api.twitter.com/2/tweets"
+    url = "https://api.twitter.com/1.1/statuses/update.json"
     headers = {"Content-Type": "application/json"}
     payload = {"text": text.strip()}
 

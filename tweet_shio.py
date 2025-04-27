@@ -1,6 +1,6 @@
-
 import os
 import random
+import json
 import requests
 from requests_oauthlib import OAuth1
 
@@ -192,12 +192,12 @@ def save_used_tweets(used_indices):
 
 def post_tweet(text):
     url = "https://api.twitter.com/1.1/statuses/update.json"
-    headers = {"Content-Type": "application/json"}
-    payload = {"text": text.strip()}
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    payload = {"status": text.strip()}
 
-    response = requests.post(url, headers=headers, json=payload, auth=auth, timeout=30)
+    response = requests.post(url, headers=headers, data=payload, auth=auth, timeout=30)
 
-    if response.status_code == 201:
+    if response.status_code == 200:
         print("✅ 投稿成功:", response.json())
     else:
         print("❌ 投稿失敗:", response.text)
@@ -221,6 +221,7 @@ if __name__ == "__main__":
     # ハッシュタグを自動付与
     final_text = f"{selected_text}\n\n{HASHTAGS}"
 
+    # 投稿
     post_tweet(final_text)
 
     # 使用済み記録を更新

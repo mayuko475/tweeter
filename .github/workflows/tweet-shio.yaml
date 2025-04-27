@@ -1,0 +1,25 @@
+name: Post Daily Tweet
+
+on:
+  schedule:
+    - cron: '0 13 * * *' # 毎日日本時間22:00 (JST)
+  workflow_dispatch:
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    env:
+      TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY2 }}
+      TWITTER_API_SECRET_KEY: ${{ secrets.TWITTER_API_SECRET_KEY2 }}
+      TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN2 }}
+      TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET2 }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests requests_oauthlib
+      - name: Post to X
+        run: python tweet_shio.py

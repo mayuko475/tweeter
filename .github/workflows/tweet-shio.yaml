@@ -2,17 +2,20 @@ name: Post Daily Tweet
 
 on:
   schedule:
-    - cron: '0 13 * * *' # 毎日日本時間22:00 (JST)
+    # 日本時間 8:00, 12:00, 21:00 に投稿（JST）
+    - cron: '0 23 * * *'   # 朝8時用（UTCで23時）
+    - cron: '0 3 * * *'    # 昼12時用（UTCで3時）
+    - cron: '0 12 * * *'   # 夜21時用（UTCで12時）
   workflow_dispatch:
 
 jobs:
   tweet:
     runs-on: ubuntu-latest
     env:
-      TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY2 }}
-      TWITTER_API_SECRET_KEY: ${{ secrets.TWITTER_API_SECRET_KEY2 }}
-      TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN2 }}
-      TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET2 }}
+      TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+      TWITTER_API_SECRET_KEY: ${{ secrets.TWITTER_API_SECRET_KEY }}
+      TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+      TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python

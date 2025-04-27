@@ -197,13 +197,13 @@ def save_used_tweets(used_indices):
 
 # --- 投稿処理 ---
 def post_tweet(text):
-    url = "https://api.twitter.com/2/tweets"
-    headers = {"Content-Type": "application/json"}
-    payload = {"text": text.strip()}
+    url = "https://api.twitter.com/1.1/statuses/update.json"  # ←ここを1.1に直す！
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    payload = {"status": text.strip()}  # ← v1.1は"text"ではなく"status"キー！
 
-    response = requests.post(url, headers=headers, json=payload, auth=auth, timeout=30)
+    response = requests.post(url, headers=headers, data=payload, auth=auth, timeout=30)
 
-    if response.status_code == 201:
+    if response.status_code == 200:
         print("✅ 投稿成功:", response.json())
     else:
         print("❌ 投稿失敗:", response.text)

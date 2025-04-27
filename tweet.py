@@ -93,7 +93,7 @@ def post_tweet(text):
     url = "https://api.twitter.com/2/tweets"
     headers = {"Content-Type": "application/json"}
     emoji = random.choice(EMOJIS)
-    payload = {"text": f"{text.strip()} {emoji}}
+    payload = {"text": f"{text.strip()} {emoji}"}
 
     resp = requests.post(url, headers=headers, json=payload, auth=auth, timeout=30)
 

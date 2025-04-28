@@ -1,4 +1,4 @@
-name: Post Daily Tweet shion
+name: Post Daily follow shion
 
 on:
   schedule:

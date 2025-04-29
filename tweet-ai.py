@@ -8,7 +8,7 @@ from requests_oauthlib import OAuth1
 API_KEY            = os.getenv("TWITTER_API_KEY3")
 API_SECRET_KEY     = os.getenv("TWITTER_API_SECRET_KEY3")
 ACCESS_TOKEN       = os.getenv("TWITTER_ACCESS_TOKEN3")
-ACCESS_TOKEN_SECRET= os.getenv("TWITTER_API_SECRET_SECRET3")
+ACCESS_TOKEN_SECRET= os.getenv("TWITTER_ACCESS_TOKEN_SECRET3")
 
 # --- 投稿候補（外部JSONに300本） ---
 with open("ai_side_hustle_posts.json", "r", encoding="utf-8") as f:

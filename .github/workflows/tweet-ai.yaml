@@ -1,0 +1,28 @@
+name: Post Daily Tweet AI
+
+on:
+  schedule:
+    # 日本時間 8:00, 12:00, 21:00 に投稿（JST）
+    - cron: '0 23 * * *'   # 朝8時用（UTCで23時）
+    - cron: '0 3 * * *'    # 昼12時用（UTCで3時）
+    - cron: '0 12 * * *'   # 夜21時用（UTCで12時）
+  workflow_dispatch:
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    env:
+      TWITTER_API_KEY3: ${{ secrets.TWITTER_API_KEY3 }}
+      TWITTER_API_SECRET_KEY3: ${{ secrets.TWITTER_API_SECRET_KEY3 }}
+      TWITTER_ACCESS_TOKEN3: ${{ secrets.TWITTER_ACCESS_TOKEN3 }}
+      TWITTER_ACCESS_TOKEN_SECRET3: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET3 }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests requests_oauthlib
+      - name: Post to X
+        run: python tweet-ai.py
